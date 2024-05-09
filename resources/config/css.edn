@@ -1,0 +1,7 @@
+{
+ :source-dir  "dev/bits/styles"
+ :var         bits.styles.main/screen
+ :output-file "resources/public/css/bits.css"
+ :flags       {:pretty-print? true
+               :vendors       ["webkit" "moz" "o"]}
+ }

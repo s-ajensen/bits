@@ -1,0 +1,3 @@
+{:migrations-ns bits.db.migrations
+ :full-schema   bits.schema.full/full-schema
+ :config-var    bits.config/bucket}
