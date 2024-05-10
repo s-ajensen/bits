@@ -1,6 +1,5 @@
 (ns bits.routes-spec
   (:require [bits.routes :as routes]
-            [bits.spec-helper]
             [c3kit.wire.spec-helper :as wire-helper]
             [c3kit.wire.websocket :as ws]
             [bits.layouts]
