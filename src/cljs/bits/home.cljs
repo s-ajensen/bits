@@ -5,7 +5,7 @@
             [clojure.string :as str]
             [reagent.core :as reagent]))
 
-(defn num-field [num-ratom name in-fn out-fn valid?-fn]
+(defn num-field [num-ratom name from-fn to-fn valid?-fn]
   (let [label (str (str/upper-case (subs name 0 1))
                    (subs name 1)
                    " ")]
@@ -15,18 +15,26 @@
               :type      "text"
               :name      name
               :value     (when-not (str/blank? @num-ratom)
-                           (in-fn @num-ratom))
+                           (from-fn @num-ratom))
               :style     {:text-align "right"}
               :on-change (fn [e]
                            (let [val (wjs/e-text e)]
                              (when (valid?-fn val)
-                               (reset! num-ratom (out-fn val)))))}]]))
+                               (reset! num-ratom (to-fn val)))))}]]))
 
 (def default "0")
 (def num (reagent/atom default))
 
-(defn valid-binary? [val]
-  (str/blank? (str/replace-all val #"1|0" "")))
+(defn present-binary [s]
+  (->> (str/reverse s)
+       (partition-all 4)
+       (map (partial apply str))
+       (str/join " ")
+       (str/reverse)))
+(defn coerce-binary [s]
+  (str/replace s " " ""))
+(defn valid-binary? [s]
+  (str/blank? (str/replace-all s #"1|0" "")))
 
 (defn binary->decimal [s]
   (js/parseInt s 2))
@@ -42,7 +50,7 @@
   (fn []
     [:div.homepage-container
      [:h1 "Bits - The Simple Base Converter"]
-     [num-field num "binary" identity identity valid-binary?]
+     [num-field num "binary" present-binary coerce-binary valid-binary?]
      [num-field num "decimal" binary->decimal decimal->binary valid-decimal?]
      ]))
 

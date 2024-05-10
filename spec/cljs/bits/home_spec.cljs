@@ -40,6 +40,14 @@
         (wire/change! "#binary" "02")
         (should= "0" (wire/value "#binary")))
 
+      (it "segments every 3 characters"
+        (wire/change! "#binary" "011001")
+        (should= "01 1001" (wire/value "#binary")))
+
+      (it "removes spaces"
+        (wire/change! "#binary" "0110 1001")
+        (should= "0110 1001" (wire/value "#binary")))
+
       (it "updates others"
         (wire/change! "#binary" "11")
         (should= "11" (wire/value "#binary"))
