@@ -5,37 +5,46 @@
             [clojure.string :as str]
             [reagent.core :as reagent]))
 
-(defn num-field [])
+(defn num-field [num-ratom name in-fn out-fn valid?-fn]
+  (let [label (str (str/upper-case (subs name 0 1))
+                   (subs name 1)
+                   " ")]
+    [:div
+     [:label {:id (str name "-label") :for name} label]
+     [:input {:id        name
+              :type      "text"
+              :name      name
+              :value     (when-not (str/blank? @num-ratom)
+                           (in-fn @num-ratom))
+              :style     {:text-align "right"}
+              :on-change (fn [e]
+                           (let [val (wjs/e-text e)]
+                             (when (valid?-fn val)
+                               (reset! num-ratom (out-fn val)))))}]]))
 
 (def default "0")
+(def num (reagent/atom default))
+
+(defn valid-binary? [val]
+  (str/blank? (str/replace-all val #"1|0" "")))
+
+(defn binary->decimal [s]
+  (js/parseInt s 2))
+(defn decimal->binary [s]
+  (when-not (str/blank? s)
+    (js-invoke (js/parseInt s) "toString" 2)))
+(defn valid-decimal? [s]
+  (or (= "0" s)
+      (and (str/blank? (str/replace-all s #"[0-9]" ""))
+           (not (str/starts-with? s "0")))))
 
 (defn home []
-  (let [num (reagent/atom default)]
-    (fn []
-      [:div.homepage-container
-       [:h1 "Bits - The Simple Base Converter"]
-       [:div
-        [:label {:for "binary"} "Binary "]
-        [:input.binary {:type      "text"
-                        :name      "binary"
-                        :value     @num
-                        :style     {:text-align "right"}
-                        :on-change (fn [e]
-                                     (let [val (wjs/e-text e)]
-                                       (when (str/blank? (str/replace-all val #"1|0" ""))
-                                         (reset! num val))))}]]
-       [:div
-        [:label {:for "decimal"} "Decimal "]
-        [:input.decimal {:type      "text"
-                         :name      "decimal"
-                         :value     (js/parseInt @num 2)
-                         :style     {:text-align "right"}
-                         :on-change (fn [e]
-                                      (let [val (wjs/e-text e)]
-                                        (when (or (= "0" val)
-                                                  (and (str/blank? (str/replace-all val #"[0-9]" ""))
-                                                       (not (str/starts-with? val "0"))))
-                                          (reset! num (js-invoke (js/parseInt val) "toString" 2)))))}]]])))
+  (fn []
+    [:div.homepage-container
+     [:h1 "Bits - The Simple Base Converter"]
+     [num-field num "binary" identity identity valid-binary?]
+     [num-field num "decimal" binary->decimal decimal->binary valid-decimal?]
+     ]))
 
 (defmethod page/render :home [_]
   [home])
