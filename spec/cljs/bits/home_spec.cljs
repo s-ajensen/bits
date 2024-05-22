@@ -79,4 +79,32 @@
         (should= "0" (wire/value "#decimal")))
 
       ; TODO - allow negatives & change "binary" to 2's comp
-      )))
+      )
+
+    (context "hexadecimal"
+
+      (it "label"
+        (should= "Hexadecimal " (wire/text! "#hexadecimal-label")))
+
+      (it "default value"
+        (should= "0x00" (wire/value "#hexadecimal")))
+
+      (it "values less than 10"
+        (wire/change! "#decimal" "9")
+        (should= "0x09" (wire/value "#hexadecimal")))
+
+      (it "values less than 16"
+        (wire/change! "#decimal" "10")
+        (should= "0x0a" (wire/value "#hexadecimal")))
+
+      (it "values greater than 16"
+        (wire/change! "#decimal" "26")
+        (should= "0x1a" (wire/value "#hexadecimal")))
+
+      (it "accepts 0x as 0"
+        (wire/change! "#hexadecimal" "0x")
+        (should= "0" (wire/value "#decimal")))
+
+      (it "requires '0x' prefix"
+        (wire/change! "#hexadecimal" "1234")
+        (should= "0x00" (wire/value "#hexadecimal")0)))))

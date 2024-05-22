@@ -23,9 +23,9 @@
 ; Layout
 ;reset/screen
 document/screen
-page/screen
+;page/screen
 ;structure/screen
-mini-classes/screen
+;mini-classes/screen
 
 ; Elements
 ;typography/screen
@@ -35,7 +35,7 @@ mini-classes/screen
 ;tables/screen
 
 ; Componenents
-menus/screen
+;menus/screen
 
 ; Pages
 ;authentication/screen

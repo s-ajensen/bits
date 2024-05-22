@@ -3,45 +3,63 @@
   (:require [bits.styles.core :refer :all]))
 
 (def screen
-(list
+  (list
 
-[:body :html
- {:margin 0
-  :padding 0
-  :font-family font-family
-  :background-color "#f5f5dc"
-  :color "#333"}]
+    [:body :html
+     {:font-family "'Courier New', Courier, monospace"
+      :background-color "#ecf0f1" ;; Light grayish blue background
+      :color "#2c3e50" ;; Dark blue text color
+      :display "flex"
+      :justify-content "center"
+      :align-items "center"
+      :height "100vh"
+      :margin "0"}]
 
-[:h1
- {:color "#008080"
-  :font-size "24px"
-  :text-align "center"
-  :margin-bottom "20px"}]
+    [:.homepage-container
+     {:width "100%"
+      :max-width "1000px"
+      :margin "0 auto"}]
 
-["input[type=\"text\"]"
- {:width "250px"
-  :padding "10px"
-  :margin "5px"
-  :font-size "16px"
-  :background-color "#faebd7"
-  :color "#333"
-  :border "1px solid #d2b48c"
-  :border-radius "4px"
-  :text-align "center"}]
+    [:h1
+     {:font-family "'Courier New', Courier, monospace"
+      :font-size "24px"
+      :color "#3498db" ;; Bright blue for the heading
+      :margin-bottom "20px"
+      :text-align "center"}]
 
-[:button
- {:width "120px"
-  :padding "10px"
-  :background-color "#008080"
-  :color "#fff"
-  :font-size "16px"
-  :border "none"
-  :border-radius "5px"
-  :cursor "pointer"
-  :transition "background-color 0.3s"
-  :margin "5px"}]
+    [:form
+     {:display "flex"
+      :flex-direction "column"
+      :align-items "flex-start"}]
 
-[:button:hover
- {:background-color "#006666"}]
+    [:.num-field
+     {:display "flex"
+      :align-items "center"
+      :justify-content "space-between"
+      :margin-bottom "15px"}]
 
-))
+    [:label
+     {:font-size "18px"
+      :margin-right "10px"
+      :color "#2c3e50"}] ;; Dark blue text color for labels
+
+    [:input
+     {:width "50%"
+      :padding "10px"
+      :border "2px solid #2c3e50" ;; Dark blue border
+      :border-radius "5px"
+      :font-family "'Courier New', Courier, monospace"
+      :font-size "18px"
+      :text-align "right"
+      :background-color "#ffffff" ;; White background for input
+      :color "#2c3e50"}] ;; Dark blue text color for input
+
+    ["input[type=\"text\"]::placeholder"
+     {:color "#e74c3c"}] ;; Red color for placeholder text
+
+    )
+
+
+
+
+  )
