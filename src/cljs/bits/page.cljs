@@ -38,7 +38,7 @@
 (defmethod entering! :default [_])
 (defmethod exiting! :default [_])
 (defmethod reentering! :default [page])
-(defmethod title :default [page] "Acme - Starter Site")
+(defmethod title :default [page] "Bits - Base Converter")
 
 (defn transition [page]
   (let [current-page (:page @state)]
