@@ -67,7 +67,7 @@
       ))
 
 (defn start [app]
-  (let [port (or (some-> "PORT" System/getenv Integer/parseInt) 8123)]
+  (let [port (or (some-> "PORT" System/getenv Integer/parseInt) 8124)]
     (log/info (str "Starting HTTP server: http://localhost:" port))
     (let [server (run-server root-handler {:port port})]
       (assoc app :http server))))
